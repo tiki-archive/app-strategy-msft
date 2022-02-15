@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:httpp/httpp.dart';
 import 'package:microsoft_provider/src/microsoft_provider_service.dart';
 import 'package:microsoft_provider/src/microsoft_provider_style.dart';
-import 'package:httpp/httpp.dart';
 
 import 'src/model/email/microsoft_provider_model_email.dart';
-import 'src/model/microsoft_provider_model.dart';
 import 'src/model/info/microsoft_provider_info_model.dart';
+import 'src/model/microsoft_provider_model.dart';
 
 class MicrosoftProvider {
   late final MicrosoftProviderService _service;

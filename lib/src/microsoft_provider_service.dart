@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
-import 'package:microsoft_provider/src/microsoft_provider_service_email.dart';
-import 'package:microsoft_provider/src/model/info/microsoft_provider_info_model.dart';
 import 'package:httpp/httpp.dart';
 import 'package:logging/logging.dart';
+import 'package:microsoft_provider/src/microsoft_provider_service_email.dart';
+import 'package:microsoft_provider/src/model/info/microsoft_provider_info_model.dart';
 
 import 'config/microsoft_provider_config.dart';
 import 'microsoft_provider_controller.dart';
 import 'microsoft_provider_presenter.dart';
-import 'model/email/microsoft_provider_model_email.dart';
-import 'repository/microsoft_provider_repository.dart';
 import 'microsoft_provider_style.dart';
+import 'model/email/microsoft_provider_model_email.dart';
 import 'model/microsoft_provider_model.dart';
+import 'repository/microsoft_provider_repository.dart';
 
 class MicrosoftProviderService extends ChangeNotifier {
   final Logger _log = Logger('MicrosoftProviderService');

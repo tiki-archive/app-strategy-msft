@@ -1,6 +1,6 @@
-import 'package:microsoft_provider/src/model/info/microsoft_provider_info_model.dart';
 import 'package:httpp/httpp.dart';
 import 'package:logging/logging.dart';
+import 'package:microsoft_provider/src/model/info/microsoft_provider_info_model.dart';
 
 import '../config/microsoft_provider_config.dart';
 import '../model/microsoft_provider_model_error_http.dart';
