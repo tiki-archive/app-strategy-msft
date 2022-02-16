@@ -23,8 +23,8 @@ class MicrosoftProviderViewAccount extends StatelessWidget {
         ),
         child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Image(
-            image: const AssetImage('res/images/gmail-circle-icon.png', package: 'microsoft_provider'),
-            height: service.style.size(40),
+            image: const AssetImage('res/images/windows-logo.png', package: 'microsoft_provider'),
+            height: service.style.size(30),
             fit: BoxFit.fitHeight,
           ),
           Container(
@@ -34,7 +34,7 @@ class MicrosoftProviderViewAccount extends StatelessWidget {
               children: [
                 Padding(
                     padding: EdgeInsets.only(bottom: service.style.size(8)),
-                    child: Text("Gmail",
+                    child: Text("Microsoft",
                         style: TextStyle(
                             fontWeight: FontWeight.w800,
                             color: service.style.providerColor,

@@ -5,23 +5,39 @@ import 'package:logging/logging.dart';
 import 'package:microsoft_provider/src/microsoft_provider_service_email.dart';
 import 'package:microsoft_provider/src/model/info/microsoft_provider_info_model.dart';
 
-import 'config/microsoft_provider_config.dart';
 import 'microsoft_provider_controller.dart';
 import 'microsoft_provider_presenter.dart';
 import 'microsoft_provider_style.dart';
-import 'model/email/microsoft_provider_model_email.dart';
 import 'model/microsoft_provider_model.dart';
-import 'repository/microsoft_provider_repository.dart';
+import 'repository/microsoft_provider_repository_info.dart';
+import 'repository/microsoft_provider_repository_oauth.dart';
 
 class MicrosoftProviderService extends ChangeNotifier {
   final Logger _log = Logger('MicrosoftProviderService');
 
+  static const String _redirectUri = "com.mytiki.app://oauth/";
+  static const String _clientId = "6e52a878-7251-4669-8e42-70655255a263";
+  static const String _authorizationEndpoint = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
+  static const String _tokenEndpoint = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
+  static const List<String> _promptValues = [
+    "select_account"
+  ];
+  static const List<String> _scopes = [
+    "openid",
+    "email",
+    "profile",
+    "mail.read",
+    "mail.send",
+    "offline_access"
+  ];
+
+
   MicrosoftProviderModel model;
   late final MicrosoftProviderPresenter presenter;
   late final MicrosoftProviderController controller;
-  late final MicrosoftProviderRepository _repository;
+  late final MicrosoftProviderRepositoryOauth _oauth;
   late final MicrosoftProviderStyle style;
-  late final MicrosoftProviderServiceEmail _serviceEmail;
+  late final MicrosoftProviderServiceEmail email;
   final Function(MicrosoftProviderModel)? onLink;
   final Function(String?)? onUnlink;
   final Function(List<MicrosoftProviderInfoModel>)? onSee;
@@ -40,8 +56,8 @@ class MicrosoftProviderService extends ChangeNotifier {
         client = httpp == null ? Httpp().client() : httpp.client() {
     presenter = MicrosoftProviderPresenter(this);
     controller = MicrosoftProviderController(this);
-    _repository = MicrosoftProviderRepository();
-    _serviceEmail = MicrosoftProviderServiceEmail(this);
+    _oauth = MicrosoftProviderRepositoryOauth();
+    email = MicrosoftProviderServiceEmail(this);
   }
 
   Future<void> signIn() async {
@@ -53,15 +69,19 @@ class MicrosoftProviderService extends ChangeNotifier {
       model.token = tokenResponse.accessToken;
       model.accessTokenExp = tokenResponse.accessTokenExpirationDateTime;
       model.refreshToken = tokenResponse.refreshToken;
-      await _repository.userInfo(
+      await _oauth.userInfo(
         accessToken: model.token!,
         client: client,
-        onSuccess: saveUserInfo,
+        onSuccess: (response) {
+          model.displayName = response?.body?.jsonBody['name'];
+          model.email = response?.body?.jsonBody['email'];
+          model.isLinked = true;
+          if (onLink != null) {
+            onLink!(model);
+          }
+        },
         onError: (e) => print,
       );
-      if (onLink != null) {
-        onLink!(model);
-      }
       notifyListeners();
     }
   }
@@ -74,58 +94,22 @@ class MicrosoftProviderService extends ChangeNotifier {
     notifyListeners();
   }
 
-  void saveUserInfo(response) {
-    model.displayName = response?.body?.jsonBody['name'];
-    model.email = response?.body?.jsonBody['email'];
-    model.isLinked = true;
-  }
-
   void seeInfo() {
-    List<MicrosoftProviderInfoModel> data = _repository.getTheyKnowInfo();
+    List<MicrosoftProviderInfoModel> data = MicrosoftProviderRepositoryInfo.theyKnowInfo;
     if (onSee != null) {
       onSee!(data);
     }
   }
-
-  void sendEmail(
-      {String? body,
-      required String to,
-      String? subject,
-      Function(bool)? onResult}) {
-    _serviceEmail.sendEmail(
-      body: body,
-      to: to,
-      subject: subject,
-      onResult: onResult,
-    );
-  }
-
-  void fetchInbox(
-      {DateTime? since,
-      required Function(List<String> messagesIds) onResult,
-      required Function() onFinish}) {
-    _serviceEmail.fetchInbox(
-        since: since, onResult: onResult, onFinish: onFinish);
-  }
-
-  void fetchMessages(
-      {required List<String> messageIds,
-      required Function(MicrosoftProviderModelEmail message) onResult,
-      required Function() onFinish}) {
-    _serviceEmail.fetchMessages(
-        messageIds: messageIds, onResult: onResult, onFinish: onFinish);
-  }
-
   // TODO handle if token cannot be refreshed
   Future<void> refreshToken() async {
     try {
       TokenResponse tokenResponse = (await _appAuth.token(TokenRequest(
-          MicrosoftProviderConfig.clientId, MicrosoftProviderConfig.redirectUri,
+          _clientId, _redirectUri,
           serviceConfiguration: const AuthorizationServiceConfiguration(
-              authorizationEndpoint: MicrosoftProviderConfig.authorizationEndpoint,
-              tokenEndpoint: MicrosoftProviderConfig.tokenEndpoint),
+              authorizationEndpoint: _authorizationEndpoint,
+              tokenEndpoint: _tokenEndpoint),
           refreshToken: model.refreshToken,
-          scopes: MicrosoftProviderConfig.scopes)))!;
+          scopes: _scopes)))!;
       model.token = tokenResponse.accessToken;
       model.refreshToken = tokenResponse.refreshToken;
     } catch (e) {
@@ -136,13 +120,13 @@ class MicrosoftProviderService extends ChangeNotifier {
   Future<AuthorizationTokenResponse?> _authorizeAndExchangeCode() async {
     AuthorizationServiceConfiguration authConfig =
         const AuthorizationServiceConfiguration(
-            authorizationEndpoint: MicrosoftProviderConfig.authorizationEndpoint,
-            tokenEndpoint: MicrosoftProviderConfig.tokenEndpoint);
-    List<String> providerScopes = MicrosoftProviderConfig.scopes;
+            authorizationEndpoint: _authorizationEndpoint,
+            tokenEndpoint: _tokenEndpoint);
+    List<String> providerScopes = _scopes;
     return await _appAuth.authorizeAndExchangeCode(
       AuthorizationTokenRequest(
-          MicrosoftProviderConfig.clientId, MicrosoftProviderConfig.redirectUri,
-          promptValues: null,
+          _clientId, _redirectUri,
+          promptValues: _promptValues,
           serviceConfiguration: authConfig,
           scopes: providerScopes),
     );

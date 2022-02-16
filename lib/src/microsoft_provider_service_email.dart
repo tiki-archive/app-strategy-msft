@@ -13,15 +13,15 @@ class MicrosoftProviderServiceEmail {
   MicrosoftProviderServiceEmail(this._service)
       : _repositoryEmail = MicrosoftProviderRepositoryEmail();
 
-  void fetchInbox({DateTime? since, required Function(List<String> messagesIds) onResult, required Function() onFinish}) {
+  Future<void> fetchInbox({DateTime? since, required Function(List<String> messagesIds) onResult, required Function() onFinish}) {
     throw Exception("TO BE IMPLEMENTED");
   }
 
-  void fetchMessages({required List<String> messageIds, required Function(MicrosoftProviderModelEmail message) onResult, required Function() onFinish}) {
+  Future<void> fetchMessages({required List<String> messageIds, required Function(MicrosoftProviderModelEmail message) onResult, required Function() onFinish}) {
     throw Exception("TO BE IMPLEMENTED");
   }
 
-  void sendEmail({String? body, required String to, String? subject, Function(bool p1)? onResult}) {
+  Future<void> send({String? body, required String to, String? subject, Function(bool p1)? onResult}) {
     throw Exception("TO BE IMPLEMENTED");
   }
 
