@@ -1,10 +1,8 @@
 import 'package:httpp/httpp.dart';
 import 'package:logging/logging.dart';
-import 'package:microsoft_provider/src/model/info/microsoft_provider_info_model.dart';
 
 import '../model/microsoft_provider_model_error_http.dart';
 import '../model/microsoft_provider_model_rsp.dart';
-import 'microsoft_provider_repository_info.dart';
 
 class MicrosoftProviderRepositoryOauth{
 

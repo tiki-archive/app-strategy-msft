@@ -103,13 +103,15 @@ class MicrosoftProviderService extends ChangeNotifier {
   // TODO handle if token cannot be refreshed
   Future<void> refreshToken() async {
     try {
-      TokenResponse tokenResponse = (await _appAuth.token(TokenRequest(
+      TokenResponse tokenResponse = (await _appAuth.token(
+          TokenRequest(
           _clientId, _redirectUri,
           serviceConfiguration: const AuthorizationServiceConfiguration(
               authorizationEndpoint: _authorizationEndpoint,
               tokenEndpoint: _tokenEndpoint),
           refreshToken: model.refreshToken,
-          scopes: _scopes)))!;
+          scopes: _scopes,
+          grantType: "refresh_token")))!;
       model.token = tokenResponse.accessToken;
       model.refreshToken = tokenResponse.refreshToken;
     } catch (e) {
@@ -121,7 +123,7 @@ class MicrosoftProviderService extends ChangeNotifier {
     AuthorizationServiceConfiguration authConfig =
         const AuthorizationServiceConfiguration(
             authorizationEndpoint: _authorizationEndpoint,
-            tokenEndpoint: _tokenEndpoint);
+            tokenEndpoint: _tokenEndpoint,);
     List<String> providerScopes = _scopes;
     return await _appAuth.authorizeAndExchangeCode(
       AuthorizationTokenRequest(
