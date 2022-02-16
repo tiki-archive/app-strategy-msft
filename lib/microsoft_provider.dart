@@ -50,27 +50,26 @@ class MicrosoftProvider {
 
   Widget accountWidget() => _service.presenter.accountButton();
 
-  void sendEmail(
+  Future<void> sendEmail(
       {String? body,
       required String to,
       String? subject,
-      Function(bool)? onResult}) {
-    _service.sendEmail(
+      Function(bool)? onResult}) =>
+    _service.email.send(
         body: body, to: to, subject: subject, onResult: onResult);
-  }
 
-  void fetchInbox(
+  Future<void> fetchInbox(
       {DateTime? since,
       required Function(List<String> messagesIds) onResult,
-      required Function() onFinish}) {
-    _service.fetchInbox(since: since, onResult: onResult, onFinish: onFinish);
-  }
+      required Function() onFinish}) =>
+    _service.email.fetchInbox(since: since, onResult: onResult, onFinish: onFinish);
 
-  void fetchMessages(
+
+  Future<void> fetchMessages(
       {required List<String> messageIds,
       required Function(MicrosoftProviderModelEmail message) onResult,
-      required Function() onFinish}) {
-    _service.fetchMessages(
+      required Function() onFinish}) =>
+    _service.email.fetchMessages(
         messageIds: messageIds, onResult: onResult, onFinish: onFinish);
-  }
+
 }
