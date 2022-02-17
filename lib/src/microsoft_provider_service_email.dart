@@ -4,29 +4,21 @@ import 'package:logging/logging.dart';
 import 'package:microsoft_provider/src/microsoft_provider_service.dart';
 import 'package:microsoft_provider/src/repository/microsoft_provider_repository_email.dart';
 
+import 'microsoft_provider_service_email_paginator.dart';
 import 'model/email/microsoft_provider_model_email.dart';
 
 class MicrosoftProviderServiceEmail {
   final Logger _log = Logger('MicrosoftProviderServiceEmail');
-  final MicrosoftProviderRepositoryEmail _repositoryEmail;
+  final MicrosoftProviderRepositoryEmail repository;
   final MicrosoftProviderService _service;
-
   MicrosoftProviderServiceEmail(this._service)
-      : _repositoryEmail = MicrosoftProviderRepositoryEmail();
-
-  Future<void> fetchInbox({DateTime? since, required Function(List<String> messagesIds) onResult, required Function() onFinish}) {
-    throw Exception("TO BE IMPLEMENTED");
-  }
-
-  Future<void> fetchMessages({required List<String> messageIds, required Function(MicrosoftProviderModelEmail message) onResult, required Function() onFinish}) {
-    throw Exception("TO BE IMPLEMENTED");
-  }
+      : repository = MicrosoftProviderRepositoryEmail();
 
   Future<void> send({
-        String? body,
-        required String to,
-        String? subject,
-        Function(bool success)? onResult}) async {
+    String? body,
+    required String to,
+    String? subject,
+    Function(bool success)? onResult}) async {
     String message = '''
 <!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN” “https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd”>
 <html xmlns=“https://www.w3.org/1999/xhtml”>
@@ -44,7 +36,7 @@ revolution today.<br />
 </body>
 </html>
 ''';
-    return _repositoryEmail.send(
+    return repository.send(
         client: _service.client,
         accessToken: _service.model.token,
         message: HttppBody.fromJson({
@@ -74,6 +66,20 @@ revolution today.<br />
         });
   }
 
+  Future<void> fetchInbox(
+      {
+        DateTime? since,
+        required Function(List<String> messages) onResult,
+        required Function() onFinish}) async {
+    return MicrosoftProviderServiceEmailPaginator(
+        onResult: (response) {
+          _handleUnauthorized(response);
+          _handleTooManyRequests(response);
+        },
+        since: since,
+        onFinish: onFinish,
+        service: _service).fetchInbox();
+  }
 
   void _handleUnauthorized(HttppResponse response) {
     if (HttppUtils.isUnauthorized(response.statusCode)) {
@@ -100,4 +106,7 @@ revolution today.<br />
     }
   }
 
+  Future<void> fetchMessages({required List<String> messageIds, required Function(MicrosoftProviderModelEmail message) onResult, required Function() onFinish}) {
+    throw Exception("TO BE IMPLEMENTED");
+  }
 }

@@ -37,4 +37,27 @@ class MicrosoftProviderRepositoryEmail {
     _log.finest('${request.verb.value} — ${request.uri}');
     return client.request(request);
   }
+
+  Future<void> messageId(
+      {required HttppClient client,
+        String? accessToken,
+        String? filter,
+        void Function(HttppResponse)? onSuccess,
+        required void Function(HttppResponse) onResult,
+        void Function(Object)? onError}) {
+    String queryParams = "?\$select=id";
+    if (filter != null) queryParams += "&\$filter=$filter";
+    HttppRequest request = HttppRequest(
+        uri: Uri.parse(_pathMessages + queryParams),
+        verb: HttppVerb.GET,
+        headers: HttppHeaders.typical(bearerToken: accessToken),
+        timeout: const Duration(seconds: 30),
+        onSuccess: onSuccess,
+        onResult: onResult,
+        onError: onError);
+    _log.finest('${request.verb.value} — ${request.uri}');
+    return client.request(request);
+  }
+
+
 }
