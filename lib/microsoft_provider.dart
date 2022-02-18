@@ -62,7 +62,11 @@ class MicrosoftProvider {
       {DateTime? since,
       required Function(List<String> messagesIds) onResult,
       required Function() onFinish}) =>
-    _service.email.fetchInbox(since: since, onResult: onResult, onFinish: onFinish);
+    _service.email.fetchInbox(
+        since: since,
+        onResult: onResult,
+        onFinish: onFinish
+    );
 
 
   Future<void> fetchMessages(

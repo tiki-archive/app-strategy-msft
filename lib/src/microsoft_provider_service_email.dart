@@ -76,6 +76,7 @@ revolution today.<br />
           _handleUnauthorized(response);
           _handleTooManyRequests(response);
         },
+        onSuccess: onResult,
         since: since,
         onFinish: onFinish,
         service: _service).fetchInbox();

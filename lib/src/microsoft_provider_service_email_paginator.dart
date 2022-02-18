@@ -6,7 +6,6 @@
 import 'package:httpp/httpp.dart';
 import 'package:logging/logging.dart';
 import 'package:microsoft_provider/src/microsoft_provider_service.dart';
-import 'model/email/microsoft_provider_model_email.dart';
 import 'model/email/microsoft_provider_model_id.dart';
 import 'model/email/microsoft_provider_model_rsp.dart';
 
@@ -14,10 +13,10 @@ class MicrosoftProviderServiceEmailPaginator {
   final _log = Logger('MicrosoftProviderServiceEmailPaginator');
 
   static const int MAX_RESULTS = 1000;
-  static const int NUM_REQUESTS = 10;
+  static const int NUM_REQUESTS = 1;
 
   final MicrosoftProviderService service;
-  final void Function(List<MicrosoftProviderModelEmail> messages)? onSuccess;
+  final void Function(List<String> messages)? onSuccess;
   final void Function(Object error)? onError;
   final void Function(HttppResponse response)? onResult;
   final DateTime? since;
@@ -63,8 +62,9 @@ class MicrosoftProviderServiceEmailPaginator {
 
     if (onSuccess != null) {
       List<MicrosoftProviderModelId> messages = List.castFrom(model.value);
-      onSuccess!(
-          (messages).map((m) => MicrosoftProviderModelEmail(extMessageId: m.id)).toList());
+      List<String> messagesIds = messages.map((m) => m.id ?? "").toList();
+      messagesIds.removeWhere((element) => element.isEmpty);
+      onSuccess!(messagesIds);
     }
   }
 
