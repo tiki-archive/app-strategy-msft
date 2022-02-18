@@ -14,8 +14,24 @@ class MicrosoftProviderRepositoryEmail {
   static const String _pathSend =
       "https://graph.microsoft.com/v1.0/me/sendMail";
 
-  Future message({required HttppClient client, String? accessToken, required String messageId, required Null Function(dynamic response) onSuccess, required Function(dynamic response) onResult, required Null Function(dynamic error) onError}) {
-    throw Exception("TO BE IMPLEMENTED");
+  Future<void> message(
+      {required HttppClient client,
+        String? accessToken,
+        required String messageId,
+        void Function(HttppResponse)? onSuccess,
+        required void Function(HttppResponse) onResult,
+        void Function(Object)? onError}) async {
+    HttppRequest request = HttppRequest(
+        uri: Uri.parse(_pathMessages +
+            '/$messageId?\$select=internetMessageHeaders,from,receivedDateTime,toRecipients'),
+        verb: HttppVerb.GET,
+        headers: HttppHeaders.typical(bearerToken: accessToken),
+        timeout: Duration(seconds: 30),
+        onSuccess: onSuccess,
+        onResult: onResult,
+        onError: onError);
+    _log.finest('${request.verb.value} — ${request.uri}');
+    return client.request(request);
   }
 
   Future<void> send(
