@@ -1,4 +1,4 @@
-import 'microsoft_provider_model_rsp.dart';
+import 'email/microsoft_provider_model_rsp.dart';
 
 class MicrosoftProviderModelErrorHttp extends Error {
     final MicrosoftProviderModelRsp rsp;
