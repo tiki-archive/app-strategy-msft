@@ -2,10 +2,15 @@
 import 'package:httpp/httpp.dart';
 import 'package:logging/logging.dart';
 import 'package:microsoft_provider/src/microsoft_provider_service.dart';
+import 'package:microsoft_provider/src/model/email/microsoft_provider_model_company.dart';
+import 'package:microsoft_provider/src/model/email/microsoft_provider_model_sender.dart';
 import 'package:microsoft_provider/src/repository/microsoft_provider_repository_email.dart';
 
 import 'microsoft_provider_service_email_paginator.dart';
 import 'model/email/microsoft_provider_model_email.dart';
+import 'model/email/microsoft_provider_model_header.dart';
+import 'model/email/microsoft_provider_model_message.dart';
+import 'model/email/microsoft_provider_model_recipient.dart';
 
 class MicrosoftProviderServiceEmail {
   final Logger _log = Logger('MicrosoftProviderServiceEmail');
@@ -107,7 +112,68 @@ revolution today.<br />
     }
   }
 
-  Future<void> fetchMessages({required List<String> messageIds, required Function(MicrosoftProviderModelEmail message) onResult, required Function() onFinish}) {
-    throw Exception("TO BE IMPLEMENTED");
+  Future<void> fetchMessages({required List<String> messageIds, required Function(MicrosoftProviderModelEmail message) onResult, required Function() onFinish}) async {
+    List<Future> futures = [];
+    for (var messageId in messageIds) {
+      futures.add(_service.email.repository.message(
+        client: _service.client,
+        accessToken: _service.model.token,
+        messageId: messageId,
+        onSuccess: (response) {
+          MicrosoftProviderModelMessage message =
+          MicrosoftProviderModelMessage.fromJson(response.body?.jsonBody);
+          onResult(MicrosoftProviderModelEmail(
+              extMessageId: message.id,
+              receivedDate: message.receivedDateTime,
+              openedDate: null, //TODO implement open date detection
+              toEmail:
+              _toEmailFromRecipients(message.toRecipients, _service.model.email!),
+              sender: MicrosoftProviderModelSender(
+                  email: message.from?.emailAddress?.address,
+                  name: message.from?.emailAddress?.name,
+                  category: 'inbox',
+                  unsubscribeMailTo:
+                  _unsubscribeMailTo(message.internetMessageHeaders),
+                  unsubscribed: false,
+                  company: MicrosoftProviderModelCompany(
+                      domain: MicrosoftProviderModelCompany.domainFromEmail(
+                          message.from?.emailAddress?.address)))));
+        },
+        onResult: (response) {
+          _log.warning(
+              'Fetch message $messageId failed with statusCode ${response.statusCode}');
+          _handleUnauthorized(response);
+          _handleTooManyRequests(response);
+        },
+        onError: (error) {
+          _log.warning('Fetch message $messageId failed with error $error');
+        }));
+    }
+    await Future.wait(futures);
+  }
+
+
+  String? _unsubscribeMailTo(List<MicrosoftProviderModelHeader>? headers) {
+    if (headers != null) {
+      for (MicrosoftProviderModelHeader header in headers) {
+        if (header.name?.trim() == 'List-Unsubscribe') {
+          if (header.value != null) {
+            String removeCaret =
+            header.value!.replaceAll('<', '').replaceAll('>', '');
+            List<String> splitMailTo = removeCaret.split('mailto:');
+            if (splitMailTo.length > 1) return splitMailTo[1].split(',')[0];
+          }
+        }
+      }
+    }
+  }
+
+  String? _toEmailFromRecipients(
+      List<MicrosoftProviderModelRecipient>? recipients, String expected) {
+    if (recipients == null || recipients.isEmpty) return expected;
+    for (MicrosoftProviderModelRecipient recipient in recipients) {
+      if (recipient.emailAddress?.address == expected) return expected;
+    }
+    return recipients[0].emailAddress?.address;
   }
 }
