@@ -21,7 +21,7 @@ class MicrosoftProviderViewSee extends StatelessWidget {
         child: Container(
           margin: EdgeInsets.symmetric(vertical: service.style.size(12)),
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text("What data does Google hold",
+            Text("What data does Microsoft hold",
                 style: TextStyle(
                     fontSize: service.style.text(14),
                     fontWeight: FontWeight.bold,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:httpp/httpp.dart';
 import 'package:microsoft_provider/src/microsoft_provider_service.dart';
 import 'package:microsoft_provider/src/microsoft_provider_style.dart';
-import 'package:httpp/httpp.dart';
 
 import 'src/model/email/microsoft_provider_model_email.dart';
-import 'src/model/microsoft_provider_model.dart';
 import 'src/model/info/microsoft_provider_info_model.dart';
+import 'src/model/microsoft_provider_model.dart';
 
 class MicrosoftProvider {
   late final MicrosoftProviderService _service;
@@ -50,27 +50,30 @@ class MicrosoftProvider {
 
   Widget accountWidget() => _service.presenter.accountButton();
 
-  void sendEmail(
+  Future<void> sendEmail(
       {String? body,
       required String to,
       String? subject,
-      Function(bool)? onResult}) {
-    _service.sendEmail(
+      Function(bool)? onResult}) =>
+    _service.email.send(
         body: body, to: to, subject: subject, onResult: onResult);
-  }
 
-  void fetchInbox(
+  Future<void> fetchInbox(
       {DateTime? since,
       required Function(List<String> messagesIds) onResult,
-      required Function() onFinish}) {
-    _service.fetchInbox(since: since, onResult: onResult, onFinish: onFinish);
-  }
+      required Function() onFinish}) =>
+    _service.email.fetchInbox(
+        since: since,
+        onResult: onResult,
+        onFinish: onFinish
+    );
 
-  void fetchMessages(
+
+  Future<void> fetchMessages(
       {required List<String> messageIds,
       required Function(MicrosoftProviderModelEmail message) onResult,
-      required Function() onFinish}) {
-    _service.fetchMessages(
+      required Function() onFinish}) =>
+    _service.email.fetchMessages(
         messageIds: messageIds, onResult: onResult, onFinish: onFinish);
-  }
+
 }

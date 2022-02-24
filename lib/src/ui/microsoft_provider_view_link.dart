@@ -5,7 +5,7 @@ import '../microsoft_provider_service.dart';
 
 class MicrosoftProviderViewLink extends StatelessWidget {
 
-  final String _text = "Sign in with Google";
+  final String _text = "Sign in with Microsoft";
 
   const MicrosoftProviderViewLink({Key? key}) : super(key: key);
 
@@ -16,11 +16,11 @@ class MicrosoftProviderViewLink extends StatelessWidget {
         onTap: service.controller.signIn,
         behavior: HitTestBehavior.opaque,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: service.style.size(8)),
-          height: service.style.size(40),
+          padding: EdgeInsets.symmetric(horizontal: service.style.size(12)),
+          height: service.style.size(45),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(service.style.size(5)),
+            border: Border.all(color: const Color(0xFF8C8C8C), width: 1.0),
             boxShadow: [
               BoxShadow(
                 color: const Color(0x0D000000),
@@ -31,19 +31,19 @@ class MicrosoftProviderViewLink extends StatelessWidget {
           ),
           child: Row(mainAxisSize: MainAxisSize.min, children: [
             Image(
-              image: const AssetImage('res/images/google-icon.png', package: 'microsoft_provider'),
-              height: service.style.size(18),
+              image: const AssetImage('res/images/windows-logo.png', package: "microsoft_provider"),
+              height: service.style.text(22),
               fit: BoxFit.fitHeight,
             ),
             Container(
-                margin: EdgeInsets.only(left: service.style.size(24)),
+                margin: EdgeInsets.only(left: service.style.size(12)),
                 child: Text(_text,
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                        fontSize: service.style.size(14),
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black54))),
+                        fontSize: service.style.text(15),
+                        fontFamily: service.style.font,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF5E5E5E)))),
           ]),
         ));
   }

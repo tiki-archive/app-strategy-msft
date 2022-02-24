@@ -14,7 +14,7 @@ class MicrosoftProviderStyle extends MicrosoftProviderUtilsStyle {
       Color textColor = const Color(0xFF00133F),
       Color unLinkColor = const Color(0xFFFF521C),
       Color infoLinkColor = const Color(0xFF00133F),
-      String font = "Arial"})
+      String font = "Segoe"})
       : _providerColor = providerColor,
         _textColor = textColor,
         _unLinkColor = unLinkColor,
