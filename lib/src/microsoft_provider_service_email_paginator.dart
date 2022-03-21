@@ -5,7 +5,7 @@
 
 import 'package:httpp/httpp.dart';
 import 'package:logging/logging.dart';
-import 'package:microsoft_provider/src/microsoft_provider_service.dart';
+import 'microsoft_provider_service.dart';
 import 'model/email/microsoft_provider_model_id.dart';
 import 'model/email/microsoft_provider_model_rsp.dart';
 
@@ -23,13 +23,13 @@ class MicrosoftProviderServiceEmailPaginator {
   int _page = 0;
   late final HttppClient httppClient;
 
-  MicrosoftProviderServiceEmailPaginator({
-        required this.service,
-        void Function()? onFinish,
-        this.onSuccess,
-        this.onResult,
-        this.onError,
-        this.since}){
+  MicrosoftProviderServiceEmailPaginator(
+      {required this.service,
+      void Function()? onFinish,
+      this.onSuccess,
+      this.onResult,
+      this.onError,
+      this.since}) {
     httppClient = service.client;
   }
 
@@ -46,7 +46,7 @@ class MicrosoftProviderServiceEmailPaginator {
         client: httppClient,
         accessToken: service.model.token,
         filter:
-        _buildFilter(page: _page, maxResults: MAX_RESULTS, after: since),
+            _buildFilter(page: _page, maxResults: MAX_RESULTS, after: since),
         onSuccess: _onSuccess,
         onResult: _onResult,
         onError: _onError);
@@ -56,7 +56,8 @@ class MicrosoftProviderServiceEmailPaginator {
 
   Future<void> _onSuccess(HttppResponse response) async {
     MicrosoftProviderModelRsp model = MicrosoftProviderModelRsp.fromJson(
-        response.body?.jsonBody, (json) => MicrosoftProviderModelId.fromJson(json));
+        response.body?.jsonBody,
+        (json) => MicrosoftProviderModelId.fromJson(json));
 
     if (model.nextLink != null) await _fetch();
 
