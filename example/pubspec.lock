@@ -147,10 +147,12 @@ packages:
   info_carousel:
     dependency: transitive
     description:
-      path: "../../info_carousel"
-      relative: true
-    source: path
-    version: "0.0.1"
+      path: "."
+      ref: "0.0.2"
+      resolved-ref: a836648aaa20fa16a0254fb2ebfd9de21f49cca7
+      url: "https://github.com/tiki/info_carousel"
+    source: git
+    version: "0.0.2"
   js:
     dependency: transitive
     description:
@@ -199,7 +201,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.3"
+    version: "0.0.4"
   mime:
     dependency: transitive
     description:
