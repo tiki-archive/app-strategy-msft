@@ -1,3 +1,3 @@
-## 0.0.1
+## 0.0.4
 
-* TODO: Describe initial release.
+* Use info_carousel to create onSee.
