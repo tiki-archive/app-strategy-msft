@@ -4,7 +4,7 @@
  */
 
 
-import 'package:microsoft_provider/src/utils/json/json_object.dart';
+import '../../utils/json/json_object.dart';
 
 class MicrosoftProviderModelHeader extends JsonObject {
   String? value;

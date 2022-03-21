@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:httpp/httpp.dart';
+import 'package:info_carousel/info_carousel.dart';
 import 'package:logging/logging.dart';
-import 'package:microsoft_provider/src/microsoft_provider_service_email.dart';
-import 'package:microsoft_provider/src/model/info/microsoft_provider_info_model.dart';
+import 'microsoft_provider_service_email.dart';
 
 import 'microsoft_provider_controller.dart';
 import 'microsoft_provider_presenter.dart';
@@ -17,11 +17,11 @@ class MicrosoftProviderService extends ChangeNotifier {
 
   static const String _redirectUri = "com.mytiki.app://oauth/";
   static const String _clientId = "6e52a878-7251-4669-8e42-70655255a263";
-  static const String _authorizationEndpoint = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
-  static const String _tokenEndpoint = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
-  static const List<String> _promptValues = [
-    "select_account"
-  ];
+  static const String _authorizationEndpoint =
+      "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
+  static const String _tokenEndpoint =
+      "https://login.microsoftonline.com/common/oauth2/v2.0/token";
+  static const List<String> _promptValues = ["select_account"];
   static const List<String> _scopes = [
     "openid",
     "email",
@@ -31,7 +31,6 @@ class MicrosoftProviderService extends ChangeNotifier {
     "offline_access"
   ];
 
-
   MicrosoftProviderModel model;
   late final MicrosoftProviderPresenter presenter;
   late final MicrosoftProviderController controller;
@@ -40,17 +39,11 @@ class MicrosoftProviderService extends ChangeNotifier {
   late final MicrosoftProviderServiceEmail email;
   final Function(MicrosoftProviderModel)? onLink;
   final Function(String?)? onUnlink;
-  final Function(List<MicrosoftProviderInfoModel>)? onSee;
   final FlutterAppAuth _appAuth;
   final HttppClient client;
 
   MicrosoftProviderService(
-      {required this.style,
-      Httpp? httpp,
-      model,
-      this.onLink,
-      this.onUnlink,
-      this.onSee})
+      {required this.style, Httpp? httpp, model, this.onLink, this.onUnlink})
       : model = model ?? MicrosoftProviderModel(),
         _appAuth = FlutterAppAuth(),
         client = httpp == null ? Httpp().client() : httpp.client() {
@@ -94,17 +87,16 @@ class MicrosoftProviderService extends ChangeNotifier {
     notifyListeners();
   }
 
-  void seeInfo() {
-    List<MicrosoftProviderInfoModel> data = MicrosoftProviderRepositoryInfo.theyKnowInfo;
-    if (onSee != null) {
-      onSee!(data);
-    }
+  Widget seeInfo() {
+    List<InfoCarouselCardModel> data =
+        MicrosoftProviderRepositoryInfo.theyKnowInfo;
+    return InfoCarousel(cards: data).carouselWidget();
   }
+
   // TODO handle if token cannot be refreshed
   Future<void> refreshToken() async {
     try {
-      TokenResponse tokenResponse = (await _appAuth.token(
-          TokenRequest(
+      TokenResponse tokenResponse = (await _appAuth.token(TokenRequest(
           _clientId, _redirectUri,
           serviceConfiguration: const AuthorizationServiceConfiguration(
               authorizationEndpoint: _authorizationEndpoint,
@@ -122,12 +114,12 @@ class MicrosoftProviderService extends ChangeNotifier {
   Future<AuthorizationTokenResponse?> _authorizeAndExchangeCode() async {
     AuthorizationServiceConfiguration authConfig =
         const AuthorizationServiceConfiguration(
-            authorizationEndpoint: _authorizationEndpoint,
-            tokenEndpoint: _tokenEndpoint,);
+      authorizationEndpoint: _authorizationEndpoint,
+      tokenEndpoint: _tokenEndpoint,
+    );
     List<String> providerScopes = _scopes;
     return await _appAuth.authorizeAndExchangeCode(
-      AuthorizationTokenRequest(
-          _clientId, _redirectUri,
+      AuthorizationTokenRequest(_clientId, _redirectUri,
           promptValues: _promptValues,
           serviceConfiguration: authConfig,
           scopes: providerScopes),

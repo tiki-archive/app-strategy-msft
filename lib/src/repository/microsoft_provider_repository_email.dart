@@ -16,17 +16,17 @@ class MicrosoftProviderRepositoryEmail {
 
   Future<void> message(
       {required HttppClient client,
-        String? accessToken,
-        required String messageId,
-        void Function(HttppResponse)? onSuccess,
-        required void Function(HttppResponse) onResult,
-        void Function(Object)? onError}) async {
+      String? accessToken,
+      required String messageId,
+      void Function(HttppResponse)? onSuccess,
+      required void Function(HttppResponse) onResult,
+      void Function(Object)? onError}) async {
     HttppRequest request = HttppRequest(
         uri: Uri.parse(_pathMessages +
             '/$messageId?\$select=internetMessageHeaders,from,receivedDateTime,toRecipients'),
         verb: HttppVerb.GET,
         headers: HttppHeaders.typical(bearerToken: accessToken),
-        timeout: Duration(seconds: 30),
+        timeout: const Duration(seconds: 30),
         onSuccess: onSuccess,
         onResult: onResult,
         onError: onError);
@@ -36,11 +36,11 @@ class MicrosoftProviderRepositoryEmail {
 
   Future<void> send(
       {required HttppClient client,
-        String? accessToken,
-        required HttppBody message,
-        void Function(HttppResponse)? onSuccess,
-        required void Function(HttppResponse) onResult,
-        void Function(Object)? onError}) async {
+      String? accessToken,
+      required HttppBody message,
+      void Function(HttppResponse)? onSuccess,
+      required void Function(HttppResponse) onResult,
+      void Function(Object)? onError}) async {
     HttppRequest request = HttppRequest(
         uri: Uri.parse(_pathSend),
         verb: HttppVerb.POST,
@@ -56,11 +56,11 @@ class MicrosoftProviderRepositoryEmail {
 
   Future<void> messageId(
       {required HttppClient client,
-        String? accessToken,
-        String? filter,
-        void Function(HttppResponse)? onSuccess,
-        required void Function(HttppResponse) onResult,
-        void Function(Object)? onError}) {
+      String? accessToken,
+      String? filter,
+      void Function(HttppResponse)? onSuccess,
+      required void Function(HttppResponse) onResult,
+      void Function(Object)? onError}) {
     String queryParams = "?\$select=id";
     if (filter != null) queryParams += "&\$filter=$filter";
     HttppRequest request = HttppRequest(
@@ -74,6 +74,4 @@ class MicrosoftProviderRepositoryEmail {
     _log.finest('${request.verb.value} — ${request.uri}');
     return client.request(request);
   }
-
-
 }

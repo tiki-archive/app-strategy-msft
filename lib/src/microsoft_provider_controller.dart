@@ -1,4 +1,4 @@
-import 'package:microsoft_provider/src/microsoft_provider_service.dart';
+import 'microsoft_provider_service.dart';
 
 class MicrosoftProviderController {
   final MicrosoftProviderService service;

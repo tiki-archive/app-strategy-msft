@@ -4,8 +4,8 @@
  */
 
 
-import 'package:microsoft_provider/src/utils/json/json_object.dart';
-import 'package:microsoft_provider/src/utils/json/json_utils.dart';
+import '../../utils/json/json_object.dart';
+import '../../utils/json/json_utils.dart';
 
 import 'microsoft_provider_model_header.dart';
 import 'microsoft_provider_model_recipient.dart';

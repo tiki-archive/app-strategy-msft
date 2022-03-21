@@ -4,8 +4,8 @@
  */
 
 
-import 'package:microsoft_provider/src/utils/json/json_object.dart';
-import 'package:microsoft_provider/src/utils/json/json_utils.dart';
+import '../../utils/json/json_object.dart';
+import '../../utils/json/json_utils.dart';
 
 class MicrosoftProviderModelRsp<T extends JsonObject> extends JsonObject {
   String? context;
@@ -15,7 +15,7 @@ class MicrosoftProviderModelRsp<T extends JsonObject> extends JsonObject {
   MicrosoftProviderModelRsp({this.context, this.nextLink, required this.value});
 
   MicrosoftProviderModelRsp.fromJson(
-      Map<String, dynamic>? json, T fromJson(Map<String, dynamic>? json)) {
+      Map<String, dynamic>? json, T Function(Map<String, dynamic>? json) fromJson) {
     if (json != null) {
       context = json['@odata.context'];
       nextLink = json['@odata.nextLink'];

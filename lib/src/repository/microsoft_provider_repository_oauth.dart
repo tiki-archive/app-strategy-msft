@@ -1,19 +1,16 @@
 import 'package:httpp/httpp.dart';
 import 'package:logging/logging.dart';
 
-import '../model/microsoft_provider_model_error_http.dart';
-import '../model/email/microsoft_provider_model_rsp.dart';
-
-class MicrosoftProviderRepositoryOauth{
-
+class MicrosoftProviderRepositoryOauth {
   final Logger _log = Logger('MicrosoftProviderRepository');
-  static const String _userinfoEndpoint = "https://graph.microsoft.com/oidc/userinfo";
+  static const String _userinfoEndpoint =
+      "https://graph.microsoft.com/oidc/userinfo";
 
   Future<void> userInfo(
       {required HttppClient client,
-        required String accessToken,
-        void Function(dynamic)? onSuccess,
-        void Function(Object)? onError}) {
+      required String accessToken,
+      void Function(dynamic)? onSuccess,
+      void Function(Object)? onError}) {
     HttppRequest req = HttppRequest(
         uri: Uri.parse(_userinfoEndpoint),
         verb: HttppVerb.GET,
@@ -33,5 +30,4 @@ class MicrosoftProviderRepositoryOauth{
     _log.finest('${req.verb.value} — ${req.uri}');
     return client.request(req);
   }
-
 }
