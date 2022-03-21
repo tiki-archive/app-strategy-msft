@@ -3,7 +3,7 @@
  * MIT license. See LICENSE file in root directory.
  */
 
-import 'package:microsoft_provider/src/utils/json/json_object.dart';
+import '../../utils/json/json_object.dart';
 
 class MicrosoftProviderModelCompany extends JsonObject {
   int? companyId;
@@ -69,5 +69,6 @@ class MicrosoftProviderModelCompany extends JsonObject {
           "." +
           periodSplit[periodSplit.length - 1];
     }
+    return null;
   }
 }

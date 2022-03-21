@@ -19,5 +19,6 @@ class JsonUtils {
       }
       return res;
     }
+    return null;
   }
 }

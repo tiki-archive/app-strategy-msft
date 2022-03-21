@@ -3,7 +3,7 @@
  * MIT license. See LICENSE file in root directory.
  */
 
-import 'package:microsoft_provider/src/utils/json/json_object.dart';
+import '../../utils/json/json_object.dart';
 
 import 'microsoft_provider_model_email_address.dart';
 

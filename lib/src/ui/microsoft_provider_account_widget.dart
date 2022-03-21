@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:microsoft_provider/src/microsoft_provider_service.dart';
+import '../microsoft_provider_service.dart';
 import 'package:provider/provider.dart';
 
 import 'microsoft_provider_view_link.dart';
