@@ -139,7 +139,7 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: "0.0.3"
+      ref: HEAD
       resolved-ref: "1f6a31faaf0d333a1221df9bbb4ef53b870b24b9"
       url: "https://github.com/tiki/httpp"
     source: git
@@ -148,11 +148,11 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: "0.0.2"
-      resolved-ref: a836648aaa20fa16a0254fb2ebfd9de21f49cca7
+      ref: HEAD
+      resolved-ref: "303ffbc81631b80559900a70f0f465b2de45d556"
       url: "https://github.com/tiki/info_carousel"
     source: git
-    version: "0.0.2"
+    version: "0.0.3"
   js:
     dependency: transitive
     description:
@@ -201,7 +201,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.4"
+    version: "0.0.5"
   mime:
     dependency: transitive
     description:

@@ -16,6 +16,7 @@ dependencies:
   httpp:
     git:
       url: https://github.com/tiki/httpp
+      ref: 0.0.3
   info_carousel:
     git:
       url: https://github.com/tiki/info_carousel
