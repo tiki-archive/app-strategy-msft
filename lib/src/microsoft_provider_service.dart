@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:httpp/httpp.dart';
 import 'package:info_carousel/info_carousel.dart';
 import 'package:logging/logging.dart';
-import 'microsoft_provider_service_email.dart';
 
 import 'microsoft_provider_controller.dart';
 import 'microsoft_provider_presenter.dart';
+import 'microsoft_provider_service_email.dart';
 import 'microsoft_provider_style.dart';
 import 'model/microsoft_provider_model.dart';
 import 'repository/microsoft_provider_repository_info.dart';
@@ -62,21 +63,25 @@ class MicrosoftProviderService extends ChangeNotifier {
       model.token = tokenResponse.accessToken;
       model.accessTokenExp = tokenResponse.accessTokenExpirationDateTime;
       model.refreshToken = tokenResponse.refreshToken;
-      await _oauth.userInfo(
-        accessToken: model.token!,
-        client: client,
-        onSuccess: (response) {
-          model.displayName = response?.body?.jsonBody['name'];
-          model.email = response?.body?.jsonBody['email'];
-          model.isLinked = true;
-          if (onLink != null) {
-            onLink!(model);
-          }
-        },
-        onError: (e) => print,
-      );
+      await updateUserInfo();
       notifyListeners();
     }
+  }
+
+  Future<void> updateUserInfo() async {
+    await _oauth.userInfo(
+      accessToken: model.token!,
+      client: client,
+      onSuccess: (response) {
+        model.displayName = response?.body?.jsonBody['name'];
+        model.email = response?.body?.jsonBody['email'];
+        model.isLinked = true;
+        if (onLink != null) {
+          onLink!(model);
+        }
+      },
+      onError: (e) => print,
+    );
   }
 
   Future<void> signOut() async {

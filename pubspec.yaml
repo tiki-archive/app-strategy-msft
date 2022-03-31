@@ -1,6 +1,6 @@
 name: microsoft_provider
 description: Microsoft provider for TIKI
-version: 0.0.4
+version: 0.0.5
 repository: https://github.com/tiki/microsoft_provider
 publish_to: none  # this package is in active development.
 
