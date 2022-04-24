@@ -7,6 +7,8 @@ import 'src/model/email/microsoft_provider_model_email.dart';
 import 'src/model/info/microsoft_provider_info_model.dart';
 import 'src/model/microsoft_provider_model.dart';
 
+export 'src/model/microsoft_provider_model.dart';
+
 class MicrosoftProvider {
   late final MicrosoftProviderService _service;
 
@@ -69,7 +71,8 @@ class MicrosoftProvider {
       _service.email
           .send(body: body, to: to, subject: subject, onResult: onResult);
 
-  Future<void> update() async => await _service.updateUserInfo();
+  Future<void> update({Function(MicrosoftProviderModel)? onUpdate}) async =>
+      await _service.updateUserInfo();
 
   get displayName => _service.model.displayName;
 }
