@@ -74,5 +74,5 @@ class MicrosoftProvider {
   Future<void> update({Function(MicrosoftProviderModel)? onUpdate}) async =>
       await _service.updateUserInfo();
 
-  get displayName => _service.model.displayName;
+  String? get displayName => _service.model.displayName;
 }
