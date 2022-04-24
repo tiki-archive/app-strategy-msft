@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:httpp/httpp.dart';
+
 import 'src/microsoft_provider_service.dart';
 import 'src/microsoft_provider_style.dart';
-
 import 'src/model/email/microsoft_provider_model_email.dart';
 import 'src/model/info/microsoft_provider_info_model.dart';
 import 'src/model/microsoft_provider_model.dart';
@@ -23,8 +23,8 @@ class MicrosoftProvider {
             style: style ?? MicrosoftProviderStyle());
 
   MicrosoftProvider.loggedIn(
-      {required email,
-      required token,
+      {required String token,
+      String? email,
       String? displayName,
       String? refreshToken,
       MicrosoftProviderStyle? style,
@@ -68,4 +68,8 @@ class MicrosoftProvider {
           Function(bool)? onResult}) =>
       _service.email
           .send(body: body, to: to, subject: subject, onResult: onResult);
+
+  Future<void> update() async => await _service.updateUserInfo();
+
+  get displayName => _service.model.displayName;
 }
