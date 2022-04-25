@@ -25,7 +25,7 @@ class MicrosoftProvider {
             style: style ?? MicrosoftProviderStyle());
 
   MicrosoftProvider.loggedIn(
-      {required String token,
+      {required String? token,
       String? email,
       String? displayName,
       String? refreshToken,
