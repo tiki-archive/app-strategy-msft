@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:httpp/httpp.dart';
 
 import 'src/microsoft_provider_service.dart';
-import 'src/microsoft_provider_style.dart';
 import 'src/model/email/microsoft_provider_model_email.dart';
-import 'src/model/info/microsoft_provider_info_model.dart';
 import 'src/model/microsoft_provider_model.dart';
 
 export 'src/model/microsoft_provider_model.dart';
@@ -13,23 +11,19 @@ class MicrosoftProvider {
   late final MicrosoftProviderService _service;
 
   MicrosoftProvider(
-      {MicrosoftProviderStyle? style,
-      Function(MicrosoftProviderModel)? onLink,
+      {Function(MicrosoftProviderModel)? onLink,
       Function(String?)? onUnlink,
-      Function(List<MicrosoftProviderInfoModel>)? onSee,
       Httpp? httpp})
       : _service = MicrosoftProviderService(
             httpp: httpp,
             onLink: onLink,
-            onUnlink: onUnlink,
-            style: style ?? MicrosoftProviderStyle());
+            onUnlink: onUnlink);
 
   MicrosoftProvider.loggedIn(
       {required String? token,
       String? email,
       String? displayName,
       String? refreshToken,
-      MicrosoftProviderStyle? style,
       Function(MicrosoftProviderModel)? onLink,
       Function(String?)? onUnlink,
       Httpp? httpp}) {
@@ -44,7 +38,7 @@ class MicrosoftProvider {
         httpp: httpp,
         onLink: onLink,
         onUnlink: onUnlink,
-        style: style ?? MicrosoftProviderStyle());
+    );
   }
 
   Widget accountWidget() => _service.presenter.accountButton();

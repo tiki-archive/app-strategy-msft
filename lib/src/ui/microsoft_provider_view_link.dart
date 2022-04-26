@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tiki_style/tiki_style.dart';
 
 import '../microsoft_provider_service.dart';
 
@@ -16,32 +17,33 @@ class MicrosoftProviderViewLink extends StatelessWidget {
         onTap: service.controller.signIn,
         behavior: HitTestBehavior.opaque,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: service.style.size(12)),
-          height: service.style.size(45),
+          padding: EdgeInsets.symmetric(horizontal: SizeProvider.instance.size(12)),
+          height: SizeProvider.instance.size(45),
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(color: const Color(0xFF8C8C8C), width: 1.0),
             boxShadow: [
               BoxShadow(
                 color: const Color(0x0D000000),
-                blurRadius: service.style.size(2),
-                offset: Offset(service.style.size(0.75), service.style.size(0.75)), // Shadow position
+                blurRadius: SizeProvider.instance.size(2),
+                offset: Offset(SizeProvider.instance.size(0.75), SizeProvider.instance.size(0.75)), // Shadow position
               ),
             ],
           ),
           child: Row(mainAxisSize: MainAxisSize.min, children: [
             Image(
               image: const AssetImage('res/images/windows-logo.png', package: "microsoft_provider"),
-              height: service.style.text(22),
+              height: SizeProvider.instance.text(22),
               fit: BoxFit.fitHeight,
             ),
             Container(
-                margin: EdgeInsets.only(left: service.style.size(12)),
+                margin: EdgeInsets.only(left: SizeProvider.instance.size(12)),
                 child: Text(_text,
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                        fontSize: service.style.text(15),
-                        fontFamily: service.style.font,
+                        fontSize: SizeProvider.instance.text(15),
+                        fontFamily: TextProvider.familySegoe,
+                        package: "tiki_style",
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF5E5E5E)))),
           ]),
