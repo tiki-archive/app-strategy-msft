@@ -8,7 +8,6 @@ import 'package:logging/logging.dart';
 import 'microsoft_provider_controller.dart';
 import 'microsoft_provider_presenter.dart';
 import 'microsoft_provider_service_email.dart';
-import 'microsoft_provider_style.dart';
 import 'model/microsoft_provider_model.dart';
 import 'repository/microsoft_provider_repository_info.dart';
 import 'repository/microsoft_provider_repository_oauth.dart';
@@ -36,7 +35,6 @@ class MicrosoftProviderService extends ChangeNotifier {
   late final MicrosoftProviderPresenter presenter;
   late final MicrosoftProviderController controller;
   late final MicrosoftProviderRepositoryOauth _oauth;
-  late final MicrosoftProviderStyle style;
   late final MicrosoftProviderServiceEmail email;
   final Function(MicrosoftProviderModel)? onLink;
   final Function(String?)? onUnlink;
@@ -44,7 +42,7 @@ class MicrosoftProviderService extends ChangeNotifier {
   final HttppClient client;
 
   MicrosoftProviderService(
-      {required this.style, Httpp? httpp, model, this.onLink, this.onUnlink})
+      {Httpp? httpp, model, this.onLink, this.onUnlink})
       : model = model ?? MicrosoftProviderModel(),
         _appAuth = FlutterAppAuth(),
         client = httpp == null ? Httpp().client() : httpp.client() {
@@ -63,12 +61,12 @@ class MicrosoftProviderService extends ChangeNotifier {
       model.token = tokenResponse.accessToken;
       model.accessTokenExp = tokenResponse.accessTokenExpirationDateTime;
       model.refreshToken = tokenResponse.refreshToken;
-      await updateUserInfo();
+      await updateUserInfo(onSuccess: onLink);
       notifyListeners();
     }
   }
 
-  Future<void> updateUserInfo() async {
+  Future<void> updateUserInfo({Function(MicrosoftProviderModel)? onSuccess}) async {
     await _oauth.userInfo(
       accessToken: model.token!,
       client: client,
@@ -76,11 +74,11 @@ class MicrosoftProviderService extends ChangeNotifier {
         model.displayName = response?.body?.jsonBody['name'];
         model.email = response?.body?.jsonBody['email'];
         model.isLinked = true;
-        if (onLink != null) {
-          onLink!(model);
+        if (onSuccess != null) {
+          onSuccess(model);
         }
       },
-      onError: (e) => print,
+      onError: (e) => _log.severe(e),
     );
   }
 

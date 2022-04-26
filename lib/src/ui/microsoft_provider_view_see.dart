@@ -4,10 +4,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../microsoft_provider_service.dart';
-
+import 'package:tiki_style/tiki_style.dart';
 
 class MicrosoftProviderViewSee extends StatelessWidget {
 
@@ -15,24 +12,20 @@ class MicrosoftProviderViewSee extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MicrosoftProviderService service = Provider.of<MicrosoftProviderService>(context);
     return Container(
         color: Colors.white,
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: service.style.size(12)),
+          margin: EdgeInsets.symmetric(vertical: SizeProvider.instance.size(12)),
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text("What data does Microsoft hold",
                 style: TextStyle(
-                    fontSize: service.style.text(14),
+                    fontSize: SizeProvider.instance.text(14),
                     fontWeight: FontWeight.bold,
-                    color: service.style.infoLinkColor)),
+                    color: ColorProvider.tikiBlue)),
             Container(
-                margin: EdgeInsets.only(left: service.style.size(8)),
-                child: Image(
-                  image: const AssetImage('res/images/right-arrow.png', package: 'microsoft_provider'),
-                  height: service.style.text(16),
-                  fit: BoxFit.fitHeight,
-                ))
+                margin: EdgeInsets.only(left: SizeProvider.instance.size(8)),
+                child: Icon(IconProvider.arrow_tail_right, size: SizeProvider.instance.text(16))
+                )
           ]),
         ));
   }

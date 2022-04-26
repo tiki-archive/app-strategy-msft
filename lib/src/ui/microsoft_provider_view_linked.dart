@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tiki_style/tiki_style.dart';
 
 import '../microsoft_provider_service.dart';
 import 'microsoft_provider_view_account.dart';
@@ -22,20 +23,20 @@ class MicrosoftProviderViewLinked extends StatelessWidget {
         onTap: service.controller.seeInfo,
         behavior: HitTestBehavior.opaque,
         child: Container(
-            margin: EdgeInsets.all(service.style.size(8)),
+            margin: EdgeInsets.all(SizeProvider.instance.size(8)),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(service.style.size(8)),
+              borderRadius: BorderRadius.circular(SizeProvider.instance.size(8)),
               boxShadow: [
                 BoxShadow(
                   color: const Color(0x0D000000),
-                  blurRadius: service.style.size(8),
-                  offset: Offset(service.style.size(3), service.style.size(3)), // Shadow position
+                  blurRadius: SizeProvider.instance.size(8),
+                  offset: Offset(SizeProvider.instance.size(3), SizeProvider.instance.size(3)), // Shadow position
                 ),
               ],
             ),
             child: ClipRRect(
-                borderRadius: BorderRadius.circular(service.style.size(12)),
+                borderRadius: BorderRadius.circular(SizeProvider.instance.size(12)),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -43,7 +44,7 @@ class MicrosoftProviderViewLinked extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         child: MicrosoftProviderViewUnlink()),
                     Container(
-                        padding: EdgeInsets.only(left: service.style.size(5), top: service.style.size(5)),
+                        padding: EdgeInsets.only(left: SizeProvider.instance.size(5), top: SizeProvider.instance.size(5)),
                         child: const MicrosoftProviderViewAccount(),
                     ),
                     const Divider(color: Colors.grey),
