@@ -31,10 +31,12 @@ class MicrosoftProviderViewLink extends StatelessWidget {
             ],
           ),
           child: Row(mainAxisSize: MainAxisSize.min, children: [
-            Image(
-              image: const AssetImage('res/images/windows-logo.png', package: "microsoft_provider"),
-              height: SizeProvider.instance.text(22),
-              fit: BoxFit.fitHeight,
+            SizedBox(
+                height: SizeProvider.instance.size(18),
+                width: SizeProvider.instance.size(18),
+                child: FittedBox(
+                    fit:BoxFit.fill,
+                    child: ImgProvider.windowsLogo)
             ),
             Container(
                 margin: EdgeInsets.only(left: SizeProvider.instance.size(12)),
