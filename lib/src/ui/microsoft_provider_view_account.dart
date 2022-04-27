@@ -28,12 +28,14 @@ class MicrosoftProviderViewAccount extends StatelessWidget {
             borderRadius: BorderRadius.circular(SizeProvider.instance.size(5)),
           ),
           child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            Image(
-              image: const AssetImage('res/images/windows-logo.png',
-                  package: 'microsoft_provider'),
-              height: SizeProvider.instance.size(_logoSize),
-              fit: BoxFit.fitHeight,
-            ),
+          SizedBox(
+            child: FittedBox(
+              fit: BoxFit.fill,
+              child: ImgProvider.windowsLogo,
+          ),
+            width: SizeProvider.instance.size(_logoSize),
+            height: SizeProvider.instance.size(_logoSize),
+          ),
             Container(
                 padding: EdgeInsets.only(left: SizeProvider.instance.size(_rowGap)),
                 child: Column(
