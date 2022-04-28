@@ -1,6 +1,6 @@
 name: microsoft_provider
 description: Microsoft provider for TIKI
-version: 0.0.7
+version: 0.0.8
 homepage: https://mytiki.com
 repository: https://github.com/tiki/microsoft_provider
 issue_tracker: https://github.com/tiki/microsoft_provider/issues
@@ -17,7 +17,7 @@ dependencies:
   info_carousel: ^0.0.4
   logging: ^1.0.2
   provider: ^6.0.2
-  tiki_style: ^0.0.8
+  tiki_style: ^0.0.9
 
 dev_dependencies:
   flutter_test:
