@@ -40,9 +40,14 @@ class MicrosoftProviderService extends ChangeNotifier {
   final Function(String?)? onUnlink;
   final FlutterAppAuth _appAuth;
   final HttppClient client;
+  final Function(
+      {String? accessToken,
+      DateTime? accessExp,
+      String? refreshToken,
+      DateTime? refreshExp})? onRefresh;
 
   MicrosoftProviderService(
-      {Httpp? httpp, model, this.onLink, this.onUnlink})
+      {Httpp? httpp, model, this.onLink, this.onUnlink, this.onRefresh})
       : model = model ?? MicrosoftProviderModel(),
         _appAuth = FlutterAppAuth(),
         client = httpp == null ? Httpp().client() : httpp.client() {
@@ -66,7 +71,8 @@ class MicrosoftProviderService extends ChangeNotifier {
     }
   }
 
-  Future<void> updateUserInfo({Function(MicrosoftProviderModel)? onSuccess}) async {
+  Future<void> updateUserInfo(
+      {Function(MicrosoftProviderModel)? onSuccess}) async {
     await _oauth.userInfo(
       accessToken: model.token!,
       client: client,
@@ -109,6 +115,12 @@ class MicrosoftProviderService extends ChangeNotifier {
           grantType: "refresh_token")))!;
       model.token = tokenResponse.accessToken;
       model.refreshToken = tokenResponse.refreshToken;
+      if (onRefresh != null) {
+        onRefresh!(
+            accessToken: tokenResponse.accessToken,
+            accessExp: tokenResponse.accessTokenExpirationDateTime,
+            refreshToken: tokenResponse.refreshToken);
+      }
     } catch (e) {
       _log.severe(e.toString());
     }

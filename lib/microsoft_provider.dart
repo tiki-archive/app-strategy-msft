@@ -13,11 +13,18 @@ class MicrosoftProvider {
   MicrosoftProvider(
       {Function(MicrosoftProviderModel)? onLink,
       Function(String?)? onUnlink,
+      Function(
+              {String? accessToken,
+              DateTime? accessExp,
+              String? refreshToken,
+              DateTime? refreshExp})?
+          onRefresh,
       Httpp? httpp})
       : _service = MicrosoftProviderService(
             httpp: httpp,
             onLink: onLink,
-            onUnlink: onUnlink);
+            onUnlink: onUnlink,
+            onRefresh: onRefresh);
 
   MicrosoftProvider.loggedIn(
       {required String? token,
@@ -26,6 +33,12 @@ class MicrosoftProvider {
       String? refreshToken,
       Function(MicrosoftProviderModel)? onLink,
       Function(String?)? onUnlink,
+      Function(
+              {String? accessToken,
+              DateTime? accessExp,
+              String? refreshToken,
+              DateTime? refreshExp})?
+          onRefresh,
       Httpp? httpp}) {
     _service = MicrosoftProviderService(
         model: MicrosoftProviderModel(
@@ -38,7 +51,7 @@ class MicrosoftProvider {
         httpp: httpp,
         onLink: onLink,
         onUnlink: onUnlink,
-    );
+        onRefresh: onRefresh);
   }
 
   Widget accountWidget() => _service.presenter.accountButton();
