@@ -1,3 +1,7 @@
+## 0.0.9
+
+* added onRefresh callback
+
 ## 0.0.8
 
 * fix style errors
