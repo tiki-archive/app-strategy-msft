@@ -143,8 +143,13 @@ revolution today.<br />
     if (HttppUtils.isUnauthorized(response.statusCode)) {
       _log.warning('Unauthorized. Trying refresh');
       _authService.client.denyUntil(response.request!, () async {
-        await _authService.refreshToken();
-        response.request?.headers?.auth(_authService.model.token);
+        try {
+          await _authService.refreshToken();
+          response.request?.headers?.auth(_authService.model.token);
+        } catch (err) {
+          _log.severe('Failed refresh. Cancelling');
+          response.request?.cancel();
+        }
       });
     }
   }
