@@ -1,6 +1,6 @@
-# microsoft_provider_example
+# tiki_strategy_microsoft_example
 
-Demonstrates how to use the microsoft_provider plugin.
+Demonstrates how to use the tiki_strategy_microsoft plugin.
 
 ## Getting Started
 

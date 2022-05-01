@@ -5,11 +5,11 @@ Microsoft conector for Tiki App.
 ## How to Use
 
 ### Link new account
-1. Initialize with `MicrosoftProvider({onLink, onUnlink, httpp})`.
+1. Initialize with `TikiStrategyMicrosoft({onLink, onUnlink, httpp})`.
 2. Use `accountWidget()` method to build the login Widget.
 
 ### Open account with auth token
-1. Initialize with `MicrosoftProvider.loggedIn()` passing the auth token.
+1. Initialize with `TikiStrategyMicrosoft.loggedIn()` passing the auth token.
 2. Use `accountWidget()` method to build the login Widget.
 
 ### Available methods
@@ -25,7 +25,7 @@ required Function() onFinish})
 ```  
 Future<void> fetchMessages(  
 {required List<String> messageIds,  
-required Function(MicrosoftProviderModelEmail message) onResult,  
+required Function(TikiStrategyMicrosoftModelEmail message) onResult,  
 required Function() onFinish})  
 ```  
 
@@ -39,7 +39,7 @@ Function(bool)? onResult})
 ```  
 
 - Updates the model with the user info.
-  `Future<void> update({Function(MicrosoftProviderModel)? onUpdate})`
+  `Future<void> update({Function(AuthModel)? onUpdate})`
 
 - Gets the user display name.  
   ``` String? get displayName```

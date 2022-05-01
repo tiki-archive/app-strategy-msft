@@ -1,4 +1,4 @@
-package com.mytiki.microsoft_provider_example
+package com.mytiki.strategy_microsoft_example
 
 import io.flutter.embedding.android.FlutterActivity
 

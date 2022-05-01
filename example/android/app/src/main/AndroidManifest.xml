@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mytiki.microsoft_provider_example">
+    package="com.mytiki.strategy_microsoft_example">
    <application
-        android:label="microsoft_provider_example"
+        android:label="strategy_microsoft_example"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
