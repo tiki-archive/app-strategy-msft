@@ -147,7 +147,7 @@ revolution today.<br />
           await _authService.refreshToken();
           response.request?.headers?.auth(_authService.model.token);
         } catch (err) {
-          _log.severe('Failed refresh. Cancelling');
+          _log.severe('Failed refresh. Cancelling', err);
           response.request?.cancel();
         }
       });
