@@ -1,3 +1,9 @@
+## 0.1.0
+
+* renamed from microsoft_provider to tiki_strategy_microsoft
+* restructured code base to be tiki slice arch.
+* fixed bugs with refresh tokens & email indexing
+
 ## 0.0.9
 
 * added onRefresh callback
