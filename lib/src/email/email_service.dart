@@ -80,16 +80,20 @@ revolution today.<br />
       required Function(List<String> messages) onResult,
       required Function() onFinish}) async {
     return EmailPaginatorInbox(
-            onResult: (response) {
-              _handleUnauthorized(response);
-              _handleTooManyRequests(response);
-            },
-            onSuccess: onResult,
-            since: since,
-            onFinish: onFinish,
-            authService: _authService,
-            repository: _repository)
-        .fetchInbox();
+        onResult: (response) {
+          _log.warning(
+              'Fetch inbox failed with statusCode ${response.statusCode}');
+          _handleUnauthorized(response);
+          _handleTooManyRequests(response);
+        },
+        onSuccess: onResult,
+        since: since,
+        onFinish: onFinish,
+        authService: _authService,
+        repository: _repository,
+        onError: (error) {
+          _log.warning('Fetch inbox failed with error $error');
+        }).fetchInbox();
   }
 
   Future<void> fetchMessages(

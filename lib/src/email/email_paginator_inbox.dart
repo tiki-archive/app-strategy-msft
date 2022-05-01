@@ -9,7 +9,7 @@ import 'package:httpp/httpp.dart';
 import 'package:logging/logging.dart';
 
 import '../auth/auth_service.dart';
-import '../graph/graph_rsp.dart';
+import '../graph/graph_model_page.dart';
 import 'email_model_id.dart';
 import 'email_repository.dart';
 
@@ -24,6 +24,7 @@ class EmailPaginatorInbox {
   final void Function(List<String> messages)? onSuccess;
   final void Function(Object error)? onError;
   final void Function(HttppResponse response)? onResult;
+  final void Function()? onFinish;
   final DateTime? since;
   int _page = 0;
   late final HttppClient httppClient;
@@ -31,7 +32,7 @@ class EmailPaginatorInbox {
   EmailPaginatorInbox(
       {required AuthService authService,
       required EmailRepository repository,
-      void Function()? onFinish,
+      this.onFinish,
       this.onSuccess,
       this.onResult,
       this.onError,
@@ -62,16 +63,21 @@ class EmailPaginatorInbox {
   }
 
   Future<void> _onSuccess(HttppResponse response) async {
-    GraphRsp model = GraphRsp.fromJson(
-        response.body?.jsonBody, (json) => EmailModelId.fromJson(json));
-
-    if (model.nextLink != null) await _fetch();
+    GraphModelPage<List<EmailModelId>> model = GraphModelPage.fromJson(
+        response.body?.jsonBody,
+        (json) => (json as List).map((e) => EmailModelId.fromJson(e)).toList());
 
     if (onSuccess != null) {
-      List<EmailModelId> messages = List.castFrom(model.value);
+      List<EmailModelId> messages = model.value ?? List.empty();
       List<String> messagesIds = messages.map((m) => m.id ?? "").toList();
       messagesIds.removeWhere((element) => element.isEmpty);
       onSuccess!(messagesIds);
+    }
+
+    if (model.nextLink != null) {
+      await _fetch();
+    } else if (onFinish != null) {
+      onFinish!();
     }
   }
 

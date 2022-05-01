@@ -3,15 +3,15 @@
  * MIT license. See LICENSE file in root directory.
  */
 
-class GraphRsp<T> {
+class GraphModelPage<T> {
   String? context;
   String? nextLink;
   T? value;
 
-  GraphRsp({this.context, this.nextLink, required this.value});
+  GraphModelPage({this.context, this.nextLink, required this.value});
 
-  GraphRsp.fromJson(Map<String, dynamic>? json,
-      T Function(Map<String, dynamic>? json) fromJson) {
+  GraphModelPage.fromJson(
+      Map<String, dynamic>? json, T Function(dynamic json) fromJson) {
     if (json != null) {
       context = json['@odata.context'];
       nextLink = json['@odata.nextLink'];

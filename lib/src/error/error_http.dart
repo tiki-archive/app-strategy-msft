@@ -3,15 +3,13 @@
  * MIT license. See LICENSE file in root directory.
  */
 
-import '../graph/graph_rsp.dart';
+import 'error_model.dart';
 
-class ErrorHttp<T> extends Error {
-  final GraphRsp<T> rsp;
-  final Map<String, dynamic> Function(T?) valueToJson;
+class ErrorHttp extends Error {
+  final ErrorModel rsp;
 
-  ErrorHttp(this.rsp, this.valueToJson);
+  ErrorHttp(this.rsp);
 
   @override
-  String toString() =>
-      "Http error. ${rsp.toJson((value) => valueToJson(value))}";
+  String toString() => "Http error. ${rsp.toJson()}";
 }

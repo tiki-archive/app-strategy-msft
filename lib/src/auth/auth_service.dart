@@ -8,6 +8,8 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:httpp/httpp.dart';
 import 'package:logging/logging.dart';
 
+import '../error/error_http.dart';
+import '../error/error_model.dart';
 import 'auth_controller.dart';
 import 'auth_model.dart';
 import 'auth_presenter.dart';
@@ -102,10 +104,8 @@ class AuthService extends ChangeNotifier {
               err.request?.headers?.auth(model.token);
             });
           } else {
-            //todo figure out what this looks like.
-            _log.severe(err);
-            /*GraphRsp body = GraphRsp.fromJson(err.body?.jsonBody);
-            throw ErrorHttp(body);*/
+            ErrorModel body = ErrorModel.fromJson(err.body?.jsonBody);
+            throw ErrorHttp(body);
           }
         } else {
           _log.severe(err);
