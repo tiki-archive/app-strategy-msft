@@ -11,8 +11,8 @@ import 'auth_service.dart';
 
 class AuthViewWidgetAccount extends StatelessWidget {
   final double _rowPadding = 16;
-  final double _logoSize = 40;
-  final double _rowGap = 15;
+  final double _logoSize = 29;
+  final double _rowGap = 7;
 
   const AuthViewWidgetAccount({Key? key}) : super(key: key);
 
@@ -29,10 +29,10 @@ class AuthViewWidgetAccount extends StatelessWidget {
                   child: ImgProvider.windowsLogo,
                   fit: BoxFit.fitWidth,
                 ),
-                width: SizeProvider.instance.width(29),
-                height: SizeProvider.instance.width(29),
+                width: SizeProvider.instance.width(_logoSize),
+                height: SizeProvider.instance.width(_logoSize),
                 padding: EdgeInsets.symmetric(
-                  horizontal: SizeProvider.instance.width(8),
+                  horizontal: SizeProvider.instance.width(4),
                 ),
                 decoration: BoxDecoration(
                     color: ColorProvider.greyTwo,
