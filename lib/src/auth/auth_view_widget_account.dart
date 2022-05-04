@@ -23,19 +23,21 @@ class AuthViewWidgetAccount extends StatelessWidget {
       double cardWidth = constraints.maxWidth;
       return Container(
           padding: EdgeInsets.all(SizeProvider.instance.size(_rowPadding)),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(SizeProvider.instance.size(5)),
-          ),
           child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            SizedBox(
-              child: FittedBox(
-                fit: BoxFit.fill,
-                child: ImgProvider.windowsLogo,
-              ),
-              width: SizeProvider.instance.size(_logoSize),
-              height: SizeProvider.instance.size(_logoSize),
-            ),
+            Container(
+                child: FittedBox(
+                  child: ImgProvider.windowsLogo,
+                  fit: BoxFit.fitWidth,
+                ),
+                width: SizeProvider.instance.width(29),
+                height: SizeProvider.instance.width(29),
+                padding: EdgeInsets.symmetric(
+                  horizontal: SizeProvider.instance.width(8),
+                ),
+                decoration: BoxDecoration(
+                    color: ColorProvider.greyTwo,
+                    borderRadius:
+                        BorderRadius.circular(SizeProvider.instance.size(16)))),
             Container(
                 padding:
                     EdgeInsets.only(left: SizeProvider.instance.size(_rowGap)),
@@ -48,7 +50,7 @@ class AuthViewWidgetAccount extends StatelessWidget {
                           child: Text("Microsoft",
                               style: TextStyle(
                                   fontWeight: FontWeight.w800,
-                                  color: ColorProvider.greySix,
+                                  color: ColorProvider.greyFive,
                                   height: 1,
                                   fontSize: SizeProvider.instance.text(14)))),
                       SizedBox(
