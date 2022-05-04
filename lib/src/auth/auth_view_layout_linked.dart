@@ -26,7 +26,7 @@ class AuthViewLayoutLinked extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius:
-                  BorderRadius.circular(SizeProvider.instance.size(8)),
+                  BorderRadius.circular(SizeProvider.instance.size(16)),
               boxShadow: [
                 BoxShadow(
                   color: const Color(0x0D000000),
