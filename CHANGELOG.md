@@ -1,3 +1,8 @@
+## 0.1.1
+
+* fixed infinite loop bug in token refresh
+* fixed UI/style to match design
+
 ## 0.1.0
 
 * renamed from microsoft_provider to tiki_strategy_microsoft
