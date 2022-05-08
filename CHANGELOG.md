@@ -1,3 +1,7 @@
+## 0.1.2
+
+* bump tiki_style version
+
 ## 0.1.1
 
 * fixed infinite loop bug in token refresh
