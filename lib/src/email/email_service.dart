@@ -115,6 +115,7 @@ revolution today.<br />
                 openedDate: null, //TODO implement open date detection
                 toEmail: _toEmailFromRecipients(
                     message.toRecipients, _authService.model.email!),
+                subject: _subject(message.internetMessageHeaders),
                 sender: TikiStrategyMicrosoftModelSender(
                     email: message.from?.emailAddress?.address,
                     name: message.from?.emailAddress?.name,
@@ -201,6 +202,17 @@ revolution today.<br />
       return periodSplit[periodSplit.length - 2] +
           "." +
           periodSplit[periodSplit.length - 1];
+    }
+    return null;
+  }
+
+  String? _subject(List<EmailModelHeader>? headers) {
+    if (headers != null) {
+      for (EmailModelHeader header in headers) {
+        if (header.name?.trim().toLowerCase() == 'subject') {
+          return header.value;
+        }
+      }
     }
     return null;
   }

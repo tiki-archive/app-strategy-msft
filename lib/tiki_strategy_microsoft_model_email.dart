@@ -11,19 +11,22 @@ class TikiStrategyMicrosoftModelEmail {
   DateTime? receivedDate;
   DateTime? openedDate;
   String? toEmail;
+  String? subject;
 
   TikiStrategyMicrosoftModelEmail(
       {this.extMessageId,
       this.sender,
       this.receivedDate,
       this.openedDate,
-      this.toEmail});
+      this.toEmail,
+      this.subject});
 
   TikiStrategyMicrosoftModelEmail.fromJson(Map<String, dynamic>? json) {
     if (json != null) {
       extMessageId = json['ext_message_id'];
       sender = TikiStrategyMicrosoftModelSender.fromJson(json['sender']);
       toEmail = json['to_email'];
+      subject = json['subject'];
       if (json['received_date_epoch'] != null) {
         receivedDate =
             DateTime.fromMillisecondsSinceEpoch(json['received_date_epoch']);
@@ -41,7 +44,8 @@ class TikiStrategyMicrosoftModelEmail {
       'sender': sender?.toJson(),
       'received_date_epoch': receivedDate?.millisecondsSinceEpoch,
       'opened_date_epoch': openedDate?.millisecondsSinceEpoch,
-      'to_email': toEmail
+      'to_email': toEmail,
+      'subject': subject
     };
   }
 }
