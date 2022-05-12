@@ -1,3 +1,7 @@
+## 0.1.3
+
+* add subject to email model
+
 ## 0.1.2
 
 * bump tiki_style version
