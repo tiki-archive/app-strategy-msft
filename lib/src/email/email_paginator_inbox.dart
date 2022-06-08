@@ -21,7 +21,7 @@ class EmailPaginatorInbox {
 
   final AuthService _authService;
   final EmailRepository _repository;
-  final void Function(List<String> messages)? onSuccess;
+  final void Function(List<String> messages, {String? page})? onSuccess;
   final void Function(Object error)? onError;
   final void Function(HttppResponse response)? onResult;
   final void Function()? onFinish;
@@ -55,14 +55,14 @@ class EmailPaginatorInbox {
         accessToken: _authService.model.token,
         filter:
             _buildFilter(page: _page, maxResults: MAX_RESULTS, after: since),
-        onSuccess: _onSuccess,
+        onSuccess: (response) => _onSuccess(response, page: _page.toString()),
         onResult: _onResult,
         onError: _onError);
     _page++;
     return future;
   }
 
-  Future<void> _onSuccess(HttppResponse response) async {
+  Future<void> _onSuccess(HttppResponse response, {String? page}) async {
     GraphModelPage<List<EmailModelId>> model = GraphModelPage.fromJson(
         response.body?.jsonBody,
         (json) => (json as List).map((e) => EmailModelId.fromJson(e)).toList());
@@ -71,7 +71,7 @@ class EmailPaginatorInbox {
       List<EmailModelId> messages = model.value ?? List.empty();
       List<String> messagesIds = messages.map((m) => m.id ?? "").toList();
       messagesIds.removeWhere((element) => element.isEmpty);
-      onSuccess!(messagesIds);
+      onSuccess!(messagesIds, page: page);
     }
 
     if (model.nextLink != null) {

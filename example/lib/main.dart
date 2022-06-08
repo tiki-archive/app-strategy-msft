@@ -11,16 +11,20 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   final Logger _log = Logger('example app');
-
+  static const String _redirectUri = "com.mytiki.app://oauth/";
+  static const String _clientId = "6e52a878-7251-4669-8e42-70655255a263";
   MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Logger.root.level = Level.ALL;
+    Logger.root.onRecord.listen((record) =>
+        print('${record.level.name} [${record.loggerName}] ${record.message}'));
     TikiStrategyMicrosoft notLoggedIn = TikiStrategyMicrosoft(
         onLink: (model) => _log.finest(model),
         onUnlink: (email) => _log.finest(email),
-        redirectUri: 'test',
-        clientId: 'test');
+        redirectUri: _redirectUri,
+        clientId: _clientId);
 
     TikiStrategyMicrosoft loggedIn = TikiStrategyMicrosoft.loggedIn(
         displayName: "Test",
@@ -45,7 +49,7 @@ class MyApp extends StatelessWidget {
             notLoggedIn.authButton,
             const Padding(padding: EdgeInsets.all(10)),
             ElevatedButton(
-                onPressed: () => loggedIn.sendEmail(
+                onPressed: () => notLoggedIn.sendEmail(
                     body: "test email from google provider",
                     to: "ricardolgrj@yahoo.com.br",
                     subject: "testing email",
@@ -56,16 +60,17 @@ class MyApp extends StatelessWidget {
             const Padding(padding: EdgeInsets.all(10)),
             ElevatedButton(
                 onPressed: () =>
-                    loggedIn.fetchInbox(onResult: (messages) async {
+                    notLoggedIn.fetchInbox(onResult: (messages, {page}) async {
                       msgIds.addAll(messages);
                       _log.fine('fetched ${messages.length} messages');
+                      _log.fine('lastPage $page');
                     }, onFinish: () async {
                       _log.fine('finished fetching inbox.');
                     }),
                 child: const Text('Fetch Inbox')),
             const Padding(padding: EdgeInsets.all(10)),
             ElevatedButton(
-                onPressed: () => loggedIn.fetchMessages(
+                onPressed: () => notLoggedIn.fetchMessages(
                     messageIds: msgIds,
                     onResult: (message) async {
                       _log.fine(

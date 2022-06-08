@@ -81,7 +81,7 @@ class TikiStrategyMicrosoft {
 
   Future<void> fetchInbox(
           {DateTime? since,
-          required Function(List<String> messagesIds) onResult,
+          required Function(List<String> messagesIds, {String? page}) onResult,
           required Function() onFinish}) =>
       _emailService.fetchInbox(
           since: since, onResult: onResult, onFinish: onFinish);
