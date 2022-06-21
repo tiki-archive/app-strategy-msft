@@ -63,21 +63,21 @@ revolution today.<br />
           _log.finest('unsubscribe mail sent to ' + to);
           if (onResult != null) onResult(true);
         },
-        onResult: (response) {
-          _log.warning('unsubscribe for $to failed.');
+        onResult: (response) async {
+          _log.warning('send email failed with code ${response.statusCode}');
           _handleUnauthorized(response);
           _handleTooManyRequests(response);
           if (onResult != null) onResult(false);
         },
         onError: (error) {
-          _log.warning('unsubscribe for $to failed.');
+          _log.severe('send email failed with error ${error.runtimeType}', error);
           if (onResult != null) onResult(false);
         });
   }
 
   Future<void> fetchInbox(
       {DateTime? since,
-      required Function(List<String> messages) onResult,
+      required Function(List<String> messages, {String? page}) onResult,
       required Function() onFinish}) async {
     return EmailPaginatorInbox(
         onResult: (response) {
