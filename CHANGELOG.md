@@ -1,3 +1,7 @@
+## 0.1.5
+
+* update info carousel
+
 ## 0.1.4
 
 * remove email from logs
