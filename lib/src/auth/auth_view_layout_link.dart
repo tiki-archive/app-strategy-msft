@@ -41,7 +41,7 @@ class AuthViewLayoutLink extends StatelessWidget {
                 height: SizeProvider.instance.size(18),
                 width: SizeProvider.instance.size(18),
                 child: FittedBox(
-                    fit: BoxFit.fill, child: ImgProvider.windowsLogo)),
+                    fit: BoxFit.fill, child: ImgProvider.microsoftWindowsLogo)),
             Container(
                 margin: EdgeInsets.only(left: SizeProvider.instance.size(12)),
                 child: Text(_text,

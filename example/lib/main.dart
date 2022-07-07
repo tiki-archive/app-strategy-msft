@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:tiki_strategy_microsoft/tiki_strategy_microsoft.dart';

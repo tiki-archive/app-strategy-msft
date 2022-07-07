@@ -26,7 +26,7 @@ class AuthViewWidgetAccount extends StatelessWidget {
           child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
             Container(
                 child: FittedBox(
-                  child: ImgProvider.windowsLogo,
+                  child: ImgProvider.microsoftWindowsLogo,
                   fit: BoxFit.fitWidth,
                 ),
                 width: SizeProvider.instance.width(_logoSize),

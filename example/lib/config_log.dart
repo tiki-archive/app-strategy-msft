@@ -3,6 +3,7 @@
  * MIT license. See LICENSE file in root directory.
  */
 
+import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 
 import 'config_environment.dart';
@@ -16,8 +17,10 @@ class ConfigLog {
   }
 
   void onRecord(LogRecord record) {
-      print(
+      if (kDebugMode) {
+        print(
           '${_formatTime(record.time)}: ${record.level.name} [${record.loggerName}] ${record.message}');
+      }
   }
 
   String _formatTime(DateTime timestamp) {

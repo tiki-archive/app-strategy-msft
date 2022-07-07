@@ -16,6 +16,5 @@ class EmailModelRecipient {
     }
   }
 
-  @override
   Map<String, dynamic> toJson() => {'emailAddress': emailAddress?.toJson()};
 }

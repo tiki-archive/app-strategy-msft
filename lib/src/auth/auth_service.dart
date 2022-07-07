@@ -60,7 +60,7 @@ class AuthService extends ChangeNotifier {
       required String redirectUri,
       required String clientId})
       : model = model ?? AuthModel(),
-        _appAuth = FlutterAppAuth(),
+        _appAuth = const FlutterAppAuth(),
         _repository = AuthRepository(),
         _clientId = clientId,
         _redirectUri = redirectUri,
@@ -78,7 +78,7 @@ class AuthService extends ChangeNotifier {
       model.token = tokenResponse.accessToken;
       model.accessTokenExp = tokenResponse.accessTokenExpirationDateTime;
       model.refreshToken = tokenResponse.refreshToken;
-      await updateUserInfo(onSuccess: onLink);
+      updateUserInfo(onSuccess: onLink);
       notifyListeners();
     }
   }
@@ -94,6 +94,7 @@ class AuthService extends ChangeNotifier {
         if (onSuccess != null) {
           onSuccess(model);
         }
+        notifyListeners();
       },
       onError: (err) {
         if (err is HttppResponse) {
