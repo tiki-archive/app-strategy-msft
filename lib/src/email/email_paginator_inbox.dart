@@ -19,6 +19,12 @@ class EmailPaginatorInbox {
   static const int MAX_RESULTS = 1000;
   static const int NUM_REQUESTS = 1;
 
+  // from https://docs.microsoft.com/en-us/office/client-developer/outlook/mapi/pidtaglistunsubscribe-canonical-property
+  static const String MAP_LIST_UNSUBSCRIBE_ID = "0x1045";
+  static const String LIST_UNSUBSCRIBE_FILTER = "singleValueExtendedProperties/Any(ep: ep/id eq 'String " +
+                                                MAP_LIST_UNSUBSCRIBE_ID +
+                                                "' and ep/value ne null )";
+
   final AuthService _authService;
   final EmailRepository _repository;
   final void Function(List<String> messages, {String? page})? onSuccess;
@@ -95,10 +101,15 @@ class EmailPaginatorInbox {
 
   String _buildFilter({DateTime? after, int page = 0, int maxResults = 10}) {
     StringBuffer queryBuffer = StringBuffer();
+
+    // only fetch emails with list unsubscribes
+    _appendQuery(queryBuffer, LIST_UNSUBSCRIBE_FILTER);
+    
     if (after != null) {
       _appendQuery(queryBuffer,
           'receivedDateTime ge ${after.toUtc().toIso8601String()}');
     }
+
     int skip = page * maxResults;
     queryBuffer.write('&\$skip=$skip&\$top=$maxResults');
     return queryBuffer.toString();
