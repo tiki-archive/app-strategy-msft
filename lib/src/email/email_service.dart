@@ -198,10 +198,9 @@ revolution today.<br />
   String? _domainFromEmail(String? email) {
     if (email != null) {
       List<String> atSplit = email.split('@');
-      List<String> periodSplit = atSplit[atSplit.length - 1].split('.');
-      return periodSplit[periodSplit.length - 2] +
-          "." +
-          periodSplit[periodSplit.length - 1];
+
+      // todo: repeated code w/ google strat
+      return atSplit[atSplit.length - 1];
     }
     return null;
   }

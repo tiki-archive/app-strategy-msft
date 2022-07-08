@@ -1,3 +1,11 @@
+## 0.1.8
+
+* Fix detecting domain from email
+
+## 0.1.7
+
+* Bump version to match google strategy
+
 ## 0.1.6
 
 * Fetch only relevant emails
