@@ -1,3 +1,7 @@
+## 0.1.6
+
+* Fetch only relevant emails
+
 ## 0.1.5
 
 * update info carousel
