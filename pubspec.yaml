@@ -1,6 +1,6 @@
 name: tiki_strategy_microsoft
 description: Microsoft strategy for TIKI
-version: 0.1.6
+version: 0.1.9
 homepage: https://mytiki.com
 repository: https://github.com/tiki/strategy_microsoft
 issue_tracker: https://github.com/tiki/strategy_microsoft/issues
