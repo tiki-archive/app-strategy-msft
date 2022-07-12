@@ -1,3 +1,7 @@
+## 0.1.10
+
+* Added countInbox method to tiki strategy microsoft
+
 ## 0.1.9
 
 * Revert list unsubscribe feature until further investigation
