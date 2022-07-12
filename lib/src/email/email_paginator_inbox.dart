@@ -103,7 +103,7 @@ class EmailPaginatorInbox {
     StringBuffer queryBuffer = StringBuffer();
 
     // only fetch emails with list unsubscribes
-    _appendQuery(queryBuffer, LIST_UNSUBSCRIBE_FILTER);
+    // _appendQuery(queryBuffer, LIST_UNSUBSCRIBE_FILTER);
     
     if (after != null) {
       _appendQuery(queryBuffer,
