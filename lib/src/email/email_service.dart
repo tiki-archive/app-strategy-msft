@@ -96,6 +96,32 @@ revolution today.<br />
         }).fetchInbox();
   }
 
+  Future<void> countInbox(
+      {DateTime? since,
+        required Function(int messages) onResult,
+        required Function() onFinish}) async {
+
+    return _repository.pathProfile(
+      client: _authService.client,
+      accessToken: _authService.model.token,
+      filter: "", // _buildFilter(after: since)
+      onSuccess: (response) {
+
+        Map<String, dynamic>? json = response.body?.jsonBody;
+        int totalMessageCount = json!["@odata.count"];
+
+        onResult(totalMessageCount);
+        onFinish();
+      },
+      onResult: (response) {
+        _log.warning('Count inbox ${_authService.model.email} failed with statusCode ${response.statusCode}: ${response.body?.body}');
+        _handleUnauthorized(response);
+        _handleTooManyRequests(response);
+      },
+      onError: (error) => _log.warning('Count inbox ${_authService.model.email} failed with error $error'),
+    );
+  }
+
   Future<void> fetchMessages(
       {required List<String> messageIds,
       required Function(TikiStrategyMicrosoftModelEmail message) onResult,
