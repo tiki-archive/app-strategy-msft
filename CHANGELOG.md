@@ -1,6 +1,7 @@
 ## 0.1.10
 
 * Added countInbox method to tiki strategy microsoft
+* Add last page index parameter
 
 ## 0.1.9
 

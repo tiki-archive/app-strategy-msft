@@ -32,7 +32,7 @@ class EmailPaginatorInbox {
   final void Function(HttppResponse response)? onResult;
   final void Function()? onFinish;
   final DateTime? since;
-  int _page = 0;
+  int page = 0;
   late final HttppClient httppClient;
 
   EmailPaginatorInbox(
@@ -42,7 +42,8 @@ class EmailPaginatorInbox {
       this.onSuccess,
       this.onResult,
       this.onError,
-      this.since})
+      this.since,
+      this.page = 0})
       : _authService = authService,
         _repository = repository,
         httppClient = authService.client;
@@ -60,11 +61,11 @@ class EmailPaginatorInbox {
         client: httppClient,
         accessToken: _authService.model.token,
         filter:
-            _buildFilter(page: _page, maxResults: MAX_RESULTS, after: since),
-        onSuccess: (response) => _onSuccess(response, page: _page.toString()),
+            _buildFilter(page: page, maxResults: MAX_RESULTS, after: since),
+        onSuccess: (response) => _onSuccess(response, page: page.toString()),
         onResult: _onResult,
         onError: _onError);
-    _page++;
+    page++;
     return future;
   }
 
