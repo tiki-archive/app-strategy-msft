@@ -77,6 +77,7 @@ revolution today.<br />
 
   Future<void> fetchInbox(
       {DateTime? since,
+      required String page,
       required Function(List<String> messages, {String? page}) onResult,
       required Function() onFinish}) async {
     return EmailPaginatorInbox(
@@ -86,6 +87,7 @@ revolution today.<br />
           _handleUnauthorized(response);
           _handleTooManyRequests(response);
         },
+        page: int.tryParse(page) ?? 0,
         onSuccess: onResult,
         since: since,
         onFinish: onFinish,
@@ -94,6 +96,32 @@ revolution today.<br />
         onError: (error) {
           _log.warning('Fetch inbox failed with error $error');
         }).fetchInbox();
+  }
+
+  Future<void> countInbox(
+      {DateTime? since,
+        required Function(int messages) onResult,
+        required Function() onFinish}) async {
+
+    return _repository.pathProfile(
+      client: _authService.client,
+      accessToken: _authService.model.token,
+      filter: "", // _buildFilter(after: since)
+      onSuccess: (response) {
+
+        Map<String, dynamic>? json = response.body?.jsonBody;
+        int totalMessageCount = json!["@odata.count"];
+
+        onResult(totalMessageCount);
+        onFinish();
+      },
+      onResult: (response) {
+        _log.warning('Count inbox ${_authService.model.email} failed with statusCode ${response.statusCode}: ${response.body?.body}');
+        _handleUnauthorized(response);
+        _handleTooManyRequests(response);
+      },
+      onError: (error) => _log.warning('Count inbox ${_authService.model.email} failed with error $error'),
+    );
   }
 
   Future<void> fetchMessages(

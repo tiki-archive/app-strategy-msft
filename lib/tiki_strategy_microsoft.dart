@@ -79,12 +79,20 @@ class TikiStrategyMicrosoft {
   Future<void> update({Function(AuthModel)? onUpdate}) async =>
       await _authService.updateUserInfo(onSuccess: onUpdate);
 
+  Future<void> countInbox(
+      {DateTime? since,
+        required Function(int totalMessageCount) onResult,
+        required Function() onFinish}) =>
+      _emailService.countInbox(
+          since: since, onResult: onResult, onFinish: onFinish);
+
   Future<void> fetchInbox(
           {DateTime? since,
+          String? page,
           required Function(List<String> messagesIds, {String? page}) onResult,
           required Function() onFinish}) =>
       _emailService.fetchInbox(
-          since: since, onResult: onResult, onFinish: onFinish);
+          page: page ?? '0', since: since, onResult: onResult, onFinish: onFinish);
 
   Future<void> fetchMessages(
           {required List<String> messageIds,
