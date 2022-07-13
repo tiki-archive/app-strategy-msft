@@ -13,7 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_appauth: ^4.0.1
-  httpp: ^0.0.4
+  httpp: ^0.0.6
   info_carousel: ^0.0.7
   logging: ^1.0.2
   provider: ^6.0.3
