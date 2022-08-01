@@ -26,7 +26,8 @@ class TikiStrategyMicrosoft {
               {String? accessToken,
               DateTime? accessExp,
               String? refreshToken,
-              DateTime? refreshExp})?
+              DateTime? refreshExp,
+              Object? error})?
           onRefresh,
       Httpp? httpp})
       : _authService = AuthService(
@@ -52,7 +53,8 @@ class TikiStrategyMicrosoft {
               {String? accessToken,
               DateTime? accessExp,
               String? refreshToken,
-              DateTime? refreshExp})?
+              DateTime? refreshExp,
+              Object? error})?
           onRefresh,
       Httpp? httpp})
       : _authService = AuthService(
