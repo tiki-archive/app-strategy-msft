@@ -1,3 +1,8 @@
+## 0.1.11
+
+* add benchmark
+* add onRefresh error
+
 ## 0.1.10
 
 * Added countInbox method to tiki strategy microsoft
