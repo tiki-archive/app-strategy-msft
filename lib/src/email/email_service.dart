@@ -77,6 +77,7 @@ revolution today.<br />
 
   Future<void> fetchInbox(
       {DateTime? since,
+      required String page,
       required Function(List<String> messages, {String? page}) onResult,
       required Function() onFinish}) async {
     return EmailPaginatorInbox(
@@ -86,6 +87,7 @@ revolution today.<br />
           _handleUnauthorized(response);
           _handleTooManyRequests(response);
         },
+        page: int.tryParse(page) ?? 0,
         onSuccess: onResult,
         since: since,
         onFinish: onFinish,
