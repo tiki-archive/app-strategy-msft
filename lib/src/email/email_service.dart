@@ -79,13 +79,17 @@ revolution today.<br />
       {DateTime? since,
       required String page,
       required Function(List<String> messages, {String? page}) onResult,
-      required Function() onFinish}) async {
+      required Function() onFinish,
+      Function(Object)? onError}) async {
     return EmailPaginatorInbox(
         onResult: (response) {
           _log.warning(
               'Fetch inbox failed with statusCode ${response.statusCode}');
           _handleUnauthorized(response);
           _handleTooManyRequests(response);
+          if(response.statusCode != 401 && response.statusCode != 429){
+            onError != null ? onError(response) : throw response;
+          }
         },
         page: int.tryParse(page) ?? 0,
         onSuccess: onResult,
@@ -95,6 +99,7 @@ revolution today.<br />
         repository: _repository,
         onError: (error) {
           _log.warning('Fetch inbox failed with error $error');
+          onError != null ? onError(error) : throw error;
         }).fetchInbox();
   }
 
@@ -127,7 +132,8 @@ revolution today.<br />
   Future<void> fetchMessages(
       {required List<String> messageIds,
       required Function(TikiStrategyMicrosoftModelEmail message) onResult,
-      required Function() onFinish}) async {
+      required Function() onFinish,
+      Function(Object)? onError}) async {
     List<Future> futures = [];
     for (String messageId in messageIds) {
       futures.add(_repository.message(
@@ -159,9 +165,13 @@ revolution today.<br />
                 'Fetch message $messageId failed with statusCode ${response.statusCode}');
             _handleUnauthorized(response);
             _handleTooManyRequests(response);
+            if(response.statusCode != 401 && response.statusCode != 429){
+              onError != null ? onError(response) : throw response;
+            }
           },
           onError: (error) {
             _log.warning('Fetch message $messageId failed with error $error');
+            onError != null ? onError(error) : throw error;
           }));
     }
     await Future.wait(futures);
