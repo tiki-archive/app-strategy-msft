@@ -1,3 +1,7 @@
+## 0.1.12
+
+* add onError to fetch messages and inbox index
+
 ## 0.1.11
 
 * add benchmark
